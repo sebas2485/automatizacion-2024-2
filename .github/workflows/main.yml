@@ -1,5 +1,5 @@
-# Workflow to learn about DevOps, GitHub Actions, and commands in .yml
-name: devops-research-workflow
+# Flujo de trabajo para aprender sobre DevOps, GitHub Actions y comandos en .yml
+name: flujo-investigacion-devops
 
 on:
   push:
@@ -9,93 +9,93 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-and-lint:
+  configuracion-y-lint:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository
-      - name: Checkout repository
+      # Clonar el repositorio
+      - name: Clonar repositorio
         uses: actions/checkout@v4
 
-      # Set up Python and install Pylint
-      - name: Set up Python
+      # Configurar Python e instalar Pylint
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
-      - name: Install Pylint
+      - name: Instalar Pylint
         run: |
           python -m pip install --upgrade pip
           pip install pylint
 
-      # Run Pylint and save the results
-      - name: Run Pylint
+      # Ejecutar Pylint y guardar los resultados
+      - name: Ejecutar Pylint
         run: pylint . > pylint-report.txt
-      - name: Upload Pylint report
+      - name: Subir reporte de Pylint
         uses: actions/upload-artifact@v3
         with:
           name: pylint-report
           path: pylint-report.txt
 
-      # Run the Python script to test execution
-      - name: Run main.py
+      # Ejecutar el script de Python para probar su ejecución
+      - name: Ejecutar main.py
         run: python main.py
 
-  build-and-test:
+  construir-y-probar:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository
-      - name: Checkout repository
+      # Clonar el repositorio
+      - name: Clonar repositorio
         uses: actions/checkout@v4
 
-      # Set up Node.js
-      - name: Set up Node.js
+      # Configurar Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
       
-      # Install and run tests
-      - name: Install dependencies
+      # Instalar y ejecutar pruebas
+      - name: Instalar dependencias
         run: npm install
-      - name: Run tests
+      - name: Ejecutar pruebas
         run: npm test
 
-  test-python:
+  probar-python:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository
-      - name: Checkout repository
+      # Clonar el repositorio
+      - name: Clonar repositorio
         uses: actions/checkout@v4
 
-      # Set up Python and dependencies
-      - name: Set up Python
+      # Configurar Python e instalar dependencias
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
-      - name: Install test dependencies
+      - name: Instalar dependencias de prueba
         run: |
           python -m pip install --upgrade pip
           pip install pytest
 
-      # Run Python tests
-      - name: Run Python tests
+      # Ejecutar pruebas de Python
+      - name: Ejecutar pruebas de Python
         run: pytest > pytest-results.txt
       
-      # Upload test results as an artifact
-      - name: Upload Pytest Results
+      # Subir resultados de las pruebas como artefacto
+      - name: Subir resultados de Pytest
         uses: actions/upload-artifact@v3
         with:
           name: pytest-results
           path: pytest-results.txt
 
-  deploy-to-environment:
+  desplegar-en-entorno:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      # Check out the repository
-      - name: Checkout repository
+      # Clonar el repositorio
+      - name: Clonar repositorio
         uses: actions/checkout@v4
 
-      # Deploy to a simulated environment
-      - name: Deploy to staging
+      # Desplegar en un entorno simulado
+      - name: Desplegar en entorno de staging
         run: |
-          echo "Deploying to staging environment..."
-          echo "Deployment successful!"
+          echo "Desplegando en el entorno de staging..."
+          echo "¡Despliegue exitoso!"
